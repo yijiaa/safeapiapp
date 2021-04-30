@@ -1,18 +1,22 @@
+const externalApiService = require("./src/externalapiservice");
+
 const express = require("express");
 const https = require("https");
 const fs = require("fs");
+const path = require("path");
 
 const app = express();
 const port = 8080;
 
 const options = {
-    key: fs.readFileSync("./certs/key.pem"),
-    cert: fs.readFileSync("./certs/cert.pem")
+    key: fs.readFileSync(path.join(__dirname, "/certs/key.pem")),
+    cert: fs.readFileSync(path.join(__dirname, "./certs/cert.pem"))
 };
 
 app.get("/", async (req, res) => {
+    const customers = await externalApiService.getFilteredCustomers();
     res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({hello: "world"}));
+    res.end(JSON.stringify(customers));
 });
 
 let server = https.createServer(options, app);
