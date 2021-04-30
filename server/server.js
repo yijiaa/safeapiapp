@@ -11,7 +11,8 @@ const options = {
 };
 
 app.get("/", async (req, res) => {
-    res.send("hello world")
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({hello: "world"}));
 });
 
 let server = https.createServer(options, app);
