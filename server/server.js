@@ -1,10 +1,21 @@
 const express = require("express");
+const https = require("https");
+const fs = require("fs");
+
 const app = express();
+const port = 8080;
+
+const options = {
+    key: fs.readFileSync("./certs/key.pem"),
+    cert: fs.readFileSync("./certs/cert.pem")
+};
 
 app.get("/", async (req, res) => {
     res.send("hello world")
 });
 
-app.listen(8080, () => {
-    console.log("Safe API app listening at http://localhost:8080");
+let server = https.createServer(options, app);
+
+server.listen(port, () => {
+    console.log(`Safe API app listening at https://localhost:${port}`);
 });
