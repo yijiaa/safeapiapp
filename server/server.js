@@ -1,4 +1,5 @@
 const externalApiService = require("./src/externalapiservice");
+const jwtService = require("./src/jwtservice");
 
 const express = require("express");
 const https = require("https");
@@ -13,7 +14,11 @@ const options = {
     cert: fs.readFileSync(path.join(__dirname, "/certs/cert.pem"))
 };
 
+app.use(express.json());
+
 app.get("/", externalApiService.getFilteredCustomers);
+
+app.post("/apikey", jwtService.generateToken);
 
 let server = https.createServer(options, app);
 
