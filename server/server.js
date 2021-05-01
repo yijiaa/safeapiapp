@@ -18,7 +18,7 @@ app.use(express.json());
 
 app.get("/", externalApiService.getFilteredCustomers);
 
-app.post("/apikey", jwtService.generateToken);
+app.get("/apikey", jwtService.generateToken);
 
 let server = https.createServer(options, app);
 
