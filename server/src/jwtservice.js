@@ -7,7 +7,7 @@ const generateToken = (req, res) => {
     const randomUsername = randomstring.generate(8);
     const token = jwt.sign({ randomUsername }, privateKey, {algorithm: "HS256"});
 
-    res.end(token);
+    res.end(JSON.stringify({ "jwt": token }));
 };
 
 const verifyToken = (req, res) => {

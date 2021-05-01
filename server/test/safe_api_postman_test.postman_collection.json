@@ -6,18 +6,88 @@
 	},
 	"item": [
 		{
-			"name": "test GET response",
+			"name": "getting new api key",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Content-Type header is application/json\", () => {\r",
-							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+							"pm.test(\"/apikey has a body\", () => {\r",
+							"    var token = JSON.parse(responseBody);\r",
+							"    pm.expect(token.jwt).to.not.equal(undefined);\r",
+							"    pm.collectionVariables.set(\"validToken\", token.jwt);\r",
 							"});\r",
-							"\r",
-							"pm.test(\"Status code is 200\", () => {\r",
-							"  pm.response.to.have.status(200);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/apikey",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"apikey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetching customer with invalid api key",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", () => {\r",
+							"  pm.response.to.have.status(401);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/?apikey=invalidapikey",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						""
+					],
+					"query": [
+						{
+							"key": "apikey",
+							"value": "invalidapikey"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetching customer without api key",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", () => {\r",
+							"  pm.response.to.have.status(401);\r",
 							"});\r",
 							""
 						],
@@ -41,6 +111,75 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "fetching customer with valid api key",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Content-Type header is application/json\", () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json')\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", () => {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/?apikey={{validToken}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						""
+					],
+					"query": [
+						{
+							"key": "apikey",
+							"value": "{{validToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "validToken",
+			"value": ""
 		}
 	]
 }
