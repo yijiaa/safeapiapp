@@ -1,3 +1,5 @@
+const jwtService = require("./jwtservice");
+
 const https = require("https");
 const axios = require("axios");
 
@@ -16,11 +18,16 @@ async function fetchCustomers() {
 }
 
 const getFilteredCustomers = async (req, res) => {
-    const response = await fetchCustomers();
-    const filteredCustomers = response.data.filter(customer => customer.currency == "cad");
-
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify(filteredCustomers));
+    if (jwtService.verifyToken(req, res)) {
+        const customers = await fetchCustomers();
+        res.setHeader("Content-Type", "application/json");
+    
+        const filteredCustomers = customers.data.filter(customer => customer.currency == "cad");
+    
+        if (!res.writableEnded) {
+            res.end(JSON.stringify(filteredCustomers));
+        }
+    }
 };
 
 module.exports = { getFilteredCustomers };
