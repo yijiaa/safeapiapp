@@ -1,4 +1,5 @@
 const externalApiService = require("./src/externalapiservice");
+const jwtService = require("./src/jwtservice");
 
 const express = require("express");
 const https = require("https");
@@ -10,14 +11,14 @@ const port = 8080;
 
 const options = {
     key: fs.readFileSync(path.join(__dirname, "/certs/key.pem")),
-    cert: fs.readFileSync(path.join(__dirname, "./certs/cert.pem"))
+    cert: fs.readFileSync(path.join(__dirname, "/certs/cert.pem"))
 };
 
-app.get("/", async (req, res) => {
-    const customers = await externalApiService.getFilteredCustomers();
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify(customers));
-});
+app.use(express.json());
+
+app.get("/", externalApiService.getFilteredCustomers);
+
+app.get("/apikey", jwtService.generateToken);
 
 let server = https.createServer(options, app);
 
