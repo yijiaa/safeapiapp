@@ -15,11 +15,12 @@ async function fetchCustomers() {
     return response;
 }
 
-async function getFilteredCustomers() {
+const getFilteredCustomers = async (req, res) => {
     const response = await fetchCustomers();
     const filteredCustomers = response.data.filter(customer => customer.currency == "cad");
 
-    return filteredCustomers;
-}
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify(filteredCustomers));
+};
 
 module.exports = { getFilteredCustomers };
