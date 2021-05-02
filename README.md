@@ -53,4 +53,5 @@ curl -k -i https://ec2-3-142-232-11.us-east-2.compute.amazonaws.com/?apikey=eyJh
 
 ### Postman
 Postman allows to make queries on the server and make run tests from query response.
+
 You can also run the provided tests created in Postman under /test by importing the collection in Postman and running the collection.
