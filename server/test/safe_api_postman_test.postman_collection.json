@@ -27,14 +27,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:8080/apikey",
-					"protocol": "https",
+					"raw": "{{awsUrl}}/getapikey",
 					"host": [
-						"localhost"
+						"{{awsUrl}}"
 					],
-					"port": "8080",
 					"path": [
-						"apikey"
+						"getapikey"
 					]
 				}
 			},
@@ -60,12 +58,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:8080/?apikey=invalidapikey",
-					"protocol": "https",
+					"raw": "{{awsUrl}}/?apikey=invalidapikey",
 					"host": [
-						"localhost"
+						"{{awsUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						""
 					],
@@ -99,12 +95,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:8080/",
-					"protocol": "https",
+					"raw": "{{awsUrl}}/",
 					"host": [
-						"localhost"
+						"{{awsUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						""
 					]
@@ -136,12 +130,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:8080/?apikey={{validToken}}",
-					"protocol": "https",
+					"raw": "{{awsUrl}}/?apikey={{validToken}}",
 					"host": [
-						"localhost"
+						"{{awsUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						""
 					],
@@ -180,6 +172,10 @@
 		{
 			"key": "validToken",
 			"value": ""
+		},
+		{
+			"key": "awsUrl",
+			"value": "https://ec2-3-142-232-11.us-east-2.compute.amazonaws.com"
 		}
 	]
 }
