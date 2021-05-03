@@ -1,5 +1,5 @@
 # safeapiapp
-This is a POC of a secure API using HTTPS and an API key to control access to the data.
+This is a POC (proof of concept) of a secure API using HTTPS and an API key to control access to the data.
 
 ## Demo
 ### Browser
@@ -15,6 +15,7 @@ Obtaining an API key:
 ```
 https://ec2-3-142-232-11.us-east-2.compute.amazonaws.com/getapikey
 ```
+> This emulates an external system that would give keys to authenticated users. Authentication with username and password was not implemented since it's not in the scope of this POC.
 
 You will see the following:
 ```
